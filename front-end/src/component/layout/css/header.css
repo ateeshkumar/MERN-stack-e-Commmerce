@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One:ital@1&family=Roboto:wght@700&display=swap');
+.navbar{
+    background: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    height: 100px;
+}
+.nav-left{
+    color: yellowgreen;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+.nav-right{
+
+}
+.nav-right>a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    margin: 10px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+}

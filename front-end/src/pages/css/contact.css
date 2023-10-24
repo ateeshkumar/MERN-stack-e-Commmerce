@@ -1,0 +1,20 @@
+.contact{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 65px;
+}
+.contact-img>img{
+    margin-right: 30px;
+}
+.contact-detail>h1{
+    background: #333;
+    color: #fff;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 50px;
+    padding: 10px;
+}
+.contact-detail>p{
+    font-size: 20px;
+}
