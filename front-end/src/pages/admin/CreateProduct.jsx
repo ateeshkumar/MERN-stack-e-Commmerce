@@ -40,17 +40,28 @@ const CreateProduct = () => {
   const handleCreate = async(e)=>{
     e.preventDefault();
     try {
-      const productData = new FormData();
-      productData.append(name);
-      productData.append(description);
-      productData.append(price);
-      productData.append(photo);
-      productData.append(cat);
-      productData.append(quantity);
-      productData.append(shipping);
-      const {data} = await axios.post('http://localhost:8080/api/v1/product/create-product',productData);
+      // const productData = new FormData();
+      // productData.append(name);
+      // productData.append(description);
+      // productData.append(price);
+      // productData.append(photo);
+      // productData.append(cat);
+      // productData.append(quantity);
+      // productData.append(shipping);
+      const {data} = await axios.post('http://localhost:8080/api/v1/product/create-product',{
+        name:name,
+        description:description,
+        price:price,
+        photo:photo,
+        category:cat,
+        quantity:quantity,
+        shipping:shipping,
+      });
       if(data?.success){
-        
+        toast.success(data?.massage);
+        getAllProduct();
+      }else{
+        toast.error(data?.massage);
       }
     } catch (error) {
       toast.error('Something went wrong in create post');
@@ -79,7 +90,7 @@ const CreateProduct = () => {
                     onChange={(value)=>setCat(value)}>
                       {
                         category?.map((item)=>(
-                          <option key={item._id} value={item.name}>
+                          <option key={item._id} value={item._id}>
                             {item.name}
                           </option>
                         ))
