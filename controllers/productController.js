@@ -58,7 +58,7 @@ export const getAllProductsController=async(req,res)=>{
 export const getSingleProductController=async(req,res)=>{
     try {
         const {slug} = req.params;
-        const products = await productModel.findOne({slug}).select('-photo').populate('category');
+        const products = await productModel.findOne({slug}).populate('category');
         res.status(200).send({
             success:true,
             massage:'single product',
@@ -109,7 +109,7 @@ export const deleteProductController = async(req,res)=>{
 }
 export const updateProductController = async(req,res)=>{
     try {
-        const {id} = req.params;
+        const {slug} = req.params;
         const {name,description,price,category,quantity,shipping} =  req.fields;
         const {photo} = req.files;
         if(!name || !description || !price || !category || !quantity){
@@ -124,7 +124,7 @@ export const updateProductController = async(req,res)=>{
                 massage:'Please upload a less then 1mb photo'
             });
         }
-        const product = await productModel.findByIdAndUpdate(id,{...req.fields, slug:slugify(name)},{new:true});
+        const product = await productModel.findByIdAndUpdate(slug,{...req.fields, slug:slugify(name)},{new:true});
         product.photo.data = fs.readFileSync(photo.path);
         product.photo.contentType = photo.type;
         await product.save();

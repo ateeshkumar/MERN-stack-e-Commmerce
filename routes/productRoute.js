@@ -10,7 +10,7 @@ requestSignIn,
 adminAccess,
 ExpressFormidable(),
 cerateProductController);
-router.post('/update-product/:id',
+router.put('/update-product/:slug',
 requestSignIn,
 adminAccess,
 ExpressFormidable(),
