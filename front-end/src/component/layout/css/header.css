@@ -14,7 +14,7 @@
     font-family: 'Roboto', sans-serif;
 }
 .nav-right{
-
+ display: flex;
 }
 .nav-right>a{
     text-decoration: none;

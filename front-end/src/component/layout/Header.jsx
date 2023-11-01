@@ -3,6 +3,7 @@ import './css/header.css';
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
+import SearchInput from '../form/SearchInput';
 const Header = () => {
   const [dashboard,setDashboard] = useState('')
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Header = () => {
           <h1>e-Commerce</h1>
         </div>
         <div className="nav-right">
+          <SearchInput/>
           <Link to='/'>Home</Link>
           <Link to='/about'>Category</Link>
            <Link to={`/dashboard/${dashboard}`}>

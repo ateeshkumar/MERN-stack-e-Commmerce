@@ -58,7 +58,7 @@ export const getAllProductsController=async(req,res)=>{
 export const getSingleProductController=async(req,res)=>{
     try {
         const {slug} = req.params;
-        const products = await productModel.findOne({slug}).populate('category');
+        const products = await productModel.findOne({slug}).select('-photo').populate('category');
         res.status(200).send({
             success:true,
             massage:'single product',
@@ -139,6 +139,108 @@ export const updateProductController = async(req,res)=>{
             massage:'Error in updateing product',
             error
         });
+    }
+}
+export const productFilterController = async(req,res)=>{
+    try {
+        const {checked,radio} = req.body;
+        let args = {};
+        if(checked.length>0) args.category = checked;
+        if(radio.length) args.price = {$gte:radio[0],$lte:radio[1]}
+        const products = await productModel.find(args);
+        res.status(200).send({
+            success:true,
+            massage:'Product filters successfully',
+            products,
+        })
+
+
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'Error in product filters',
+            error
+        })
+    }
+}
+export const productCountController=async(req,res)=>{
+    try {
+        const total = await productModel.find({}).estimatedDocumentCount();
+        res.status(200).send({
+            success:true,
+            massage:'successfully count',
+            total,
+        })
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'error in count',
+            error,
+        })
+    }
+}
+
+export const productListController = async(req,res)=>{
+    try {
+        const {page} = req.params;
+        const perPage = 6;
+        const products = await productModel.find({})
+        .select('-photo')
+        .skip((page -1)*perPage)
+        .limit(perPage)
+        .sort({createdAt:-1});
+        res.status(200).send({
+            success:true,
+            massage:'successfully list the product',
+            products
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'error in list',
+            error
+        })
+    }
+}
+
+export const searchProductController= async(req,res)=>{
+    try {
+        const {keyword} = req.params;
+        const result = await productModel.find({
+            $or:[
+                {name:{$regex:keyword,$options:'i'}},
+                {description:{$regex:keyword,$options:'i'}},
+            ],
+        }).select("-photo")
+        res.json(result);
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'error in search',
+            error,
+        })
+    }
+}
+
+export const relatedProductController = async(req,res)=>{
+    try {
+        const {pid,cid} = req.params;
+        const products = await productModel.find({
+            category:cid,
+            _id:{$ne:pid}
+        }).select('-photo').limit(3).populate('category');
+        res.status(200).send({
+            success:true,
+            massage:'related product found successfully',
+            products,
+        });
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'error in related product',
+            error,
+        })
     }
 }
 export default cerateProductController;
