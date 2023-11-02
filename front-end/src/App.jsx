@@ -21,6 +21,7 @@ import Product from './pages/admin/Product'
 import UpdateProduct from './pages/admin/UpdateProduct'
 import Search from './pages/Search'
 import ProductDetails from './pages/ProductDetails'
+import Cart from './pages/Cart'
 function App() {
 
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/forgot-password' element={<FrogotPasword/>}/>
         <Route path='/contact' element={<Contact/>}/>
+        <Route path='/cart' element={<Cart/>}/>
         <Route path='/about' element = {<About/>}/>
         <Route path='/policy' element= {<Policy/>}/>
         <Route path='/*' element= {<PageNotFound/>}/>
