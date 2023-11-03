@@ -1,5 +1,5 @@
 import express from "express";
-import registerController, { forgotPassword, loginController, testController } from '../controllers/authController.js';
+import registerController, { forgotPassword, loginController, testController, updateUserProfile } from '../controllers/authController.js';
 import { adminAccess, requestSignIn } from "../middleware/authMiddleware.js";
 const route = express.Router();
 
@@ -13,4 +13,6 @@ route.get('/admin-auth',requestSignIn,adminAccess,(req,res)=>{
     res.status(200).send({ok:true});
 });
 route.post('/forgot-password',forgotPassword);
+
+route.put('/update-user',requestSignIn,updateUserProfile);
 export default route;

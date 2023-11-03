@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.14.14",
     "antd": "^5.10.2",
     "axios": "^1.5.1",
+    "braintree-web-drop-in-react": "^1.2.1",
     "concurrently": "^8.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

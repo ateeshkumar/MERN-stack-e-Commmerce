@@ -42,15 +42,17 @@ const Header = () => {
           <Link to="/about">About Us</Link>
           <Link to={`/dashboard/${dashboard}`}>{auth?.user?.name}</Link>
           {auth.user ? (
-            <Link onClick={handleLogout} to="/login">
-              Logout
-            </Link>
+            <>
+              <Link onClick={handleLogout} to="/login">
+                Logout
+              </Link>
+              {/* <Link to="dashboard/user/profile">Account</Link> */}
+            </>
           ) : (
             <Link to="/login">Login</Link>
           )}
           {/* <Badge count={0} showZero> */}
-            <Link to="/cart">Cart({cart.length})</Link>
-          
+          <Link to="/cart">Cart({cart.length})</Link>
         </div>
       </div>
     </>

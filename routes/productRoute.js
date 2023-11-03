@@ -1,6 +1,6 @@
 import express from 'express';
 import { adminAccess, requestSignIn } from '../middleware/authMiddleware.js';
-import cerateProductController, { deleteProductController, 
+import cerateProductController, { braintreePaymentController, braintreeTokenController, deleteProductController, 
     getAllProductsController, getProductPhotoController, 
     getSingleProductController, productCountController, 
     productFilterController, productListController, 
@@ -31,5 +31,7 @@ router.get('/product-count',productCountController);
 router.get('/product-list/:page',productListController);
 router.get('/search/:keyword',searchProductController);
 router.get('/related-product/:pid/:cid',relatedProductController);
+router.get('/braintree/token',braintreeTokenController);
+router.post('braintree/payment',requestSignIn,braintreePaymentController);
 
 export default router;

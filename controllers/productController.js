@@ -1,6 +1,18 @@
 import fs from 'fs';
 import productModel from '../models/productModel.js';
 import slugify from 'slugify';
+import braintree from 'braintree';
+
+
+//payment-gateway
+
+const gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox, 
+  merchantId: 'rqvzbh7mvbk7j7z6',
+  publicKey: 'd2c5c28rzs7mptn5',
+  privateKey: '6381b191eda7d013124fd464222dbb1e'
+});
+
 const cerateProductController=async(req,res)=>{
     try {
         const {name,description,price,category,quantity,shipping} =  req.fields;
@@ -240,6 +252,62 @@ export const relatedProductController = async(req,res)=>{
             success:false,
             massage:'error in related product',
             error,
+        })
+    }
+}
+// payment token api 
+export const braintreeTokenController= async(req,res)=>{
+    try {
+        gateway.clientToken.generate({},function(err,response){
+            if(err){
+                res.status(500).send(err);
+            }else{
+                res.status(200).send(response);
+            }
+        })
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'Error in Token',
+            error
+        })
+    }
+}
+
+
+export const braintreePaymentController= async(req,res)=>{
+    try {
+        const {cart,nonce} = req.body;
+        let total = 0;
+        cart.map((i)=>{
+            total += i.price;
+        });
+        let newTransaction = gateway.transaction.sale({
+            amount:total,
+            paymentMethodNonce:nonce,
+            options:{
+                submitForSettlement:true
+            }
+        },
+        function(err,result){
+            if(result){
+                const order = new orderModel({
+                    product:cart,
+                    payment:result,
+                    buyer:req.user._id
+                }).save()
+                res.json({ok:true})
+            }else{
+                res.status(500).send(err);
+            }
+        }
+        )
+
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            massage:'Error in Payment',
+            error
         })
     }
 }
